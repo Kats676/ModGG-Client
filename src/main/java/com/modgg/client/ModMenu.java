@@ -1,5 +1,6 @@
 package com.modgg.client;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
@@ -15,7 +16,7 @@ public class ModMenu extends Screen {
     @Override
     protected void init() {
         int x = this.width / 2 - 100;
-        int y = this.height / 2 - 60;
+        int y = this.height / 2 - 75; // Немного подняли начальную точку, чтобы влезли все 6 кнопок
 
         // 1. Кнопка размера рук (CreateHue)
         this.addDrawableChild(ButtonWidget.builder(
@@ -26,7 +27,15 @@ public class ModMenu extends Screen {
             }).dimensions(x, y, 200, 20).build());
         y += 25;
 
-        // 2. Кнопка зрения в лаве (LavaCam) - ИСПРАВЛЕНО ОБРАЩЕНИЕ
+        // 2. Кнопка FreeCam (Свободная камера) — НОВАЯ КНОПКА
+        this.addDrawableChild(ButtonWidget.builder(
+            Text.literal("FreeCam: " + onOff(ModGGClient.freeCam.enabled)), btn -> {
+                ModGGClient.freeCam.toggle();
+                btn.setMessage(Text.literal("FreeCam: " + onOff(ModGGClient.freeCam.enabled)));
+            }).dimensions(x, y, 200, 20).build());
+        y += 25;
+
+        // 3. Кнопка зрения в лаве (LavaCam)
         this.addDrawableChild(ButtonWidget.builder(
             Text.literal("LavaCam: " + onOff(ModGGClient.lavaCam.enabled)), btn -> {
                 ModGGClient.lavaCam.toggle();
@@ -34,7 +43,7 @@ public class ModMenu extends Screen {
             }).dimensions(x, y, 200, 20).build());
         y += 25;
 
-        // 3. Кнопка фейерверков при убийстве (Fireworks)
+        // 4. Кнопка фейерверков при убийстве (Fireworks)
         this.addDrawableChild(ButtonWidget.builder(
             Text.literal("Fireworks: " + onOff(ModGGClient.effects.fireworks)), btn -> {
                 ModGGClient.effects.fireworks = !ModGGClient.effects.fireworks;
@@ -42,7 +51,7 @@ public class ModMenu extends Screen {
             }).dimensions(x, y, 200, 20).build());
         y += 25;
 
-        // 4. Кнопка подсветки игроков в прицеле (Glow)
+        // 5. Кнопка подсветки игроков в прицеле (Glow)
         this.addDrawableChild(ButtonWidget.builder(
             Text.literal("Glow: " + onOff(ModGGClient.glow.enabled)), btn -> {
                 ModGGClient.glow.enabled = !ModGGClient.glow.enabled;
@@ -50,14 +59,14 @@ public class ModMenu extends Screen {
             }).dimensions(x, y, 200, 20).build());
         y += 25;
 
-        // 5. Кнопка закрытия меню
+        // 6. Кнопка закрытия меню
         this.addDrawableChild(ButtonWidget.builder(
             Text.literal("Закрыть"), btn -> this.close()).dimensions(x, y, 200, 20).build());
     }
 
-    // Отрисовка темного заднего фона при открытии меню (чтобы кнопки было видно)
+    // Правильный рендер интерфейса для современных версий Minecraft (через DrawContext)
     @Override
-    public void render(net.minecraft.client.gui.DrawContext context, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.renderBackground(context, mouseX, mouseY, delta);
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 20, 0xFFFFFF);
         super.render(context, mouseX, mouseY, delta);
