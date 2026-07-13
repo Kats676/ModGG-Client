@@ -12,7 +12,6 @@ import net.minecraft.util.math.MathHelper;
 public class HueOptimizatec {
     public boolean enabled = true;
 
-    // ИСПРАВЛЕНО: В 1.21.4 используется Identifier.of вместо new Identifier
     private static final Identifier HEART_TEXTURE = Identifier.of("minecraft", "textures/gui/sprites/hud/heart/full.png");
 
     public void render(DrawContext context, float tickDelta) {
@@ -38,7 +37,8 @@ public class HueOptimizatec {
         context.getMatrices().scale(scale, scale, 1.0f);
         context.getMatrices().translate(-(heartX + heartSize / 2f), -(heartY + heartSize / 2f), 0);
         
-        context.drawTexture(HEART_TEXTURE, heartX, heartY, 0, 0, heartSize, heartSize, heartSize, heartSize);
+        // ИСПРАВЛЕНО ДЛЯ 1.21.4: Новый правильный метод отрисовки текстуры
+        context.drawTexture(HEART_TEXTURE, heartX, heartY, 0, 0, heartSize, heartSize);
         context.getMatrices().pop();
 
         String healthText = String.format("%.1f", health);
