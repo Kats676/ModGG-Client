@@ -47,6 +47,9 @@ public class ModGGClient implements ModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player == null) return;
 
+            // Обработка логики тика для подсветки игроков
+            glow.onTick();
+
             if (menuKey.wasPressed()) client.setScreen(new ModMenu());
             if (freeCamKey.wasPressed()) freeCam.toggle();
             if (createHueKey.wasPressed()) {
@@ -59,7 +62,7 @@ public class ModGGClient implements ModInitializer {
             }
             if (effectsKey.wasPressed()) {
                 effects.fireworks = !effects.fireworks;
-                msg(client, "Effects: " + onOff(effects.fireworks));
+                msg(client, "Effects (Kills): " + onOff(effects.fireworks));
             }
             if (glowKey.wasPressed()) {
                 glow.enabled = !glow.enabled;
