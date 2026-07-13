@@ -2,6 +2,7 @@ package com.modgg.client.modules;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -37,8 +38,8 @@ public class HueOptimizatec {
         context.getMatrices().scale(scale, scale, 1.0f);
         context.getMatrices().translate(-(heartX + heartSize / 2f), -(heartY + heartSize / 2f), 0);
         
-        // ИСПРАВЛЕНО ДЛЯ 1.21.4: Новый правильный метод отрисовки текстуры
-        context.drawTexture(HEART_TEXTURE, heartX, heartY, 0, 0, heartSize, heartSize);
+        // ФИКС ДЛЯ 1.21.4: Используем новый сигнатурный метод с RenderLayer.getGuiTextures()
+        context.drawTexture(RenderLayer::getGuiTextured, HEART_TEXTURE, heartX, heartY, 0, 0, heartSize, heartSize, heartSize, heartSize);
         context.getMatrices().pop();
 
         String healthText = String.format("%.1f", health);
