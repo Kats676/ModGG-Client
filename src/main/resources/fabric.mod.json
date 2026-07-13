@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "modgg",
+  "version": "1.0.0",
+  "name": "ModGG Client",
+  "description": "Легальный мод от kats676",
+  "authors": ["kats676"],
+  "contact": {
+    "homepage": "https://github.com/kats676/ModGG-Client"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "main": ["com.modgg.client.ModGGClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": ">=1.21",
+    "fabric-api": "*"
+  }
+}
